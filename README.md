@@ -1,5 +1,5 @@
 # EFDM
-The official codes of our CVPR2022 paper: Exact Feature Distribution Matching for Arbitrary Style Transfer and Domain Generalization
+The official codes of our CVPR2022 paper: [Exact Feature Distribution Matching for Arbitrary Style Transfer and Domain Generalization](https://arxiv.org/abs/2203.07740)
 
 **One Sentence Summary:** EFDM outperforms AdaIN, which only matches first and second order statistics, by implicitly matching high orders statistics in an efficient manner. 
 
@@ -12,18 +12,20 @@ Particularly, a fast EHM algorithm, named Sort-Matching, is employed to perform 
 Below we show a brief implementation of it in PyTorch:
 ```python
 import torch
-def exact_feature_distribution_matching(content_feat, style_feat):
-    assert (content_feat.size() == style_feat.size()) ## content and style features should share the same shape
-    B, C, W, H = content_feat.size(0), content_feat.size(1), content_feat.size(2), content_feat.size(3)
-    _, index_content = torch.sort(content_feat.view(B,C,-1))  ## sort content feature
-    value_style, _ = torch.sort(style_feat.view(B,C,-1))      ## sort style feature
+def exact_feature_distribution_matching(content, style):
+    assert (content.size() == style.size()) ## content and style features should share the same shape
+    B, C, W, H = content.size(0), content.size(1), content.size(2), content.size(3)
+    _, index_content = torch.sort(content.view(B,C,-1))  ## sort content feature
+    value_style, _ = torch.sort(style.view(B,C,-1))      ## sort style feature
     inverse_index = index_content.argsort(-1)
-    transferred_content = content_feat.view(B,C,-1) + value_style.gather(-1, inverse_index) - content_feat.view(B,C,-1).detach()
+    transferred_content = content.view(B,C,-1) + value_style.gather(-1, inverse_index) - content.view(B,C,-1).detach()
     return transferred_content.view(B, C, W, H)
 ```
 
 In our paper, we have demonstrated the effectiveness of EFDMix on three tasks: arbitrary style transfer, 
 cross-domain image classification, and cross-domain person re-identification. The source code for reproducing all experiments can be found in `EFDM/ArbitraryStyleTransfer`, `EFDM/DomainGeneralization/imcls`, and `EFDM/DomainGeneralization/reid`, respectively.
+
+The review and supplementary material are given in the `Review_CVPR22.pdf` and `Supplementary_Material.pdf`, respectively.
 
 To cite EFDM in your publications, please use the following bibtex entry:
 ```

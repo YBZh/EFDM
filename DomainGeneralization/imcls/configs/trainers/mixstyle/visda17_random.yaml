@@ -1,0 +1,25 @@
+INPUT:
+  SIZE: (224, 224)
+  TRANSFORMS: ['random_flip', 'center_crop', 'normalize']
+
+DATALOADER:
+  TRAIN_X:
+    BATCH_SIZE: 32
+  TEST:
+    BATCH_SIZE: 100
+  NUM_WORKERS: 4
+
+OPTIM:
+  NAME: 'sgd'
+  LR: 0.001
+  MAX_EPOCH: 5
+
+TRAINER:
+  VANILLA2:
+    MIX: 'random'
+
+TRAIN:
+  PRINT_FREQ: 100
+
+TEST:
+  PER_CLASS_RESULT: True
