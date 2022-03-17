@@ -3,6 +3,11 @@ The official codes of our CVPR2022 paper: [Exact Feature Distribution Matching f
 
 **One Sentence Summary:** EFDM outperforms AdaIN, which only matches first and second order statistics, by implicitly matching high orders statistics in an efficient manner. 
 
+| ![comparison.png](comparison.png) |
+|:-------------:|
+| Fig.1: AdaIN vs. histogram matching vs. EFDM via Sort-matching. |
+
+
 **A brief introduction:**
 Many real-world tasks (e.g., Arbitrary Style Transfer and Domain Generalizaiton) can be cast as a feature distribution matching problem.
 With the assumption of Gaussian feature distribution, conventional feature distribution matching methods usually match the mean and standard deviation of features. 
