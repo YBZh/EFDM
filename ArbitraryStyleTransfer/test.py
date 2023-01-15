@@ -179,9 +179,12 @@ for content_path in content_paths:
                 list.append([i*j, i*(1-j), (1-i)*j, (1-i)*(1-j)])
         count = 1
         for interpolation_weights in list:
+            start_time = time.time()
             with torch.no_grad():
                 output = style_transfer(vgg, decoder, content, style,
                                         args.alpha, interpolation_weights, style_type=args.test_style_type)
+            timer.append(time.time() - start_time)
+            # print(timer)
             output = output.cpu()
             output_name = output_dir / '{:s}_interpolate_{:s}_{:s}'.format(
                 content_path.stem, str(count), args.save_ext)
@@ -239,16 +242,19 @@ for content_path in content_paths:
                         output = style_transfer(vgg, decoder, content, style,
                                                 args.alpha, style_type=args.test_style_type)
                         timer.append(time.time() - start_time)
-                        print(timer)
+                        # print(timer)
 
                     output = output.cpu()
                     output_name = output_dir / '{:s}_stylized_{:s}{:s}'.format(
                         content_path.stem, style_path.stem, args.save_ext)
                     save_image(output, str(output_name))
             else:
+                start_time = time.time()
                 with torch.no_grad():
                     output = style_transfer(vgg, decoder, content, style,
                                             args.alpha, style_type=args.test_style_type)
+                timer.append(time.time() - start_time)
+                # print(timer)
                 output = output.cpu()
                 output_name = output_dir / '{:s}_stylized_{:s}{:s}'.format(
                     content_path.stem, style_path.stem, args.save_ext)
