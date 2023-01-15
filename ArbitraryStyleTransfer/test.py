@@ -112,7 +112,11 @@ if not args.test_style_type:
 print('Note: the style type: %s and the pre-trained model: %s should be consistent' % (args.style_type, args.decoder))
 print('The test style type is:', args.test_style_type)
 
-do_interpolation = True
+# do_interpolation = True  ### When this is set as True, we aim to generate output images with mixed styles; therefore, multiple style images should be inputed, for example:
+###CUDA_VISIBLE_DEVICES=0 python test.py --content input/content/avril.jpg --style input/style/picasso_self_portrait.jpg,input/style/sketch.png,input/style/the_resevoir_at_poitiers.jpg,input/style/woman_in_peasant_dress.jpg \
+#--style_type adahist --test_style_type adahist  --crop --decoder ./experiments_efdm/decoder_iter_160000.pth.tar --output  inter_four_style
+
+do_interpolation = False   ## only one style image is required.
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
